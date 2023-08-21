@@ -49,4 +49,8 @@ public final class Constants
     public static final double LEFT_X_DEADBAND = 0.01;
     public static final double LEFT_Y_DEADBAND = 0.01;
   }
+
+  public static final class Intake {
+    public static final int ID = 0;
+  }
 }
