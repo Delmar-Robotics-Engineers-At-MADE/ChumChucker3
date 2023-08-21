@@ -19,6 +19,7 @@ import frc.robot.Commands.auto.Autos;
 import frc.robot.Commands.drivebase.AbsoluteDrive;
 import frc.robot.Commands.drivebase.AbsoluteFieldDrive;
 import frc.robot.Commands.drivebase.TeleopDrive;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveDrive.Swerve;
 import java.io.File;
 
@@ -35,7 +36,9 @@ public class RobotContainer
                                                                          "swerve/neo"));
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  CommandJoystick driverController = new CommandJoystick(1);
+  // CommandJoystick driverController = new CommandJoystick(1);
+
+  private final Intake intake = new Intake();
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
@@ -75,9 +78,9 @@ public class RobotContainer
                                                     () -> driverXbox.getRawAxis(2), () -> true, false, true);
     TeleopDrive closedFieldRel = new TeleopDrive(
         drivebase,
-        () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverController.getRawAxis(3), () -> true, false, true);
+        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverXbox.getRightX(), () -> true, false, true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
   }
@@ -118,4 +121,5 @@ public class RobotContainer
   {
     drivebase.setMotorBrake(brake);
   }
+
 }

@@ -13,7 +13,7 @@ public class Intake extends SubsystemBase {
 
     private final WPI_TalonFX motor = new WPI_TalonFX(Constants.IntakeConstants.ID);
 
-    Intake() {
+    public Intake() {
         motor.setNeutralMode(NeutralMode.Brake);
     }
     
