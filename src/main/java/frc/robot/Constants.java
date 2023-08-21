@@ -50,7 +50,9 @@ public final class Constants
     public static final double LEFT_Y_DEADBAND = 0.01;
   }
 
-  public static final class Intake {
+  public static final class IntakeConstants {
     public static final int ID = 0;
+    public static final double inSpeed = 0.7;
+    public static final double outSpeed = 0.7;
   }
 }

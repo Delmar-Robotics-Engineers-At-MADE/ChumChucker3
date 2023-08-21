@@ -11,7 +11,7 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
 
-    private final WPI_TalonFX motor = new WPI_TalonFX(Constants.Intake.ID);
+    private final WPI_TalonFX motor = new WPI_TalonFX(Constants.IntakeConstants.ID);
 
     Intake() {
         motor.setNeutralMode(NeutralMode.Brake);
