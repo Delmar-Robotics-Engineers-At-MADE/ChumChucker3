@@ -8,18 +8,22 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Commands.auto.Autos;
 import frc.robot.Commands.drivebase.AbsoluteDrive;
 import frc.robot.Commands.drivebase.AbsoluteFieldDrive;
 import frc.robot.Commands.drivebase.TeleopDrive;
 import frc.robot.subsystems.Intake;
+import frc.robot.Commands.RunIntake;
+import frc.robot.Commands.StopIntake;
 import frc.robot.subsystems.SwerveDrive.Swerve;
 import java.io.File;
 
@@ -38,11 +42,11 @@ public class RobotContainer
   // Replace with CommandPS4Controller or CommandJoystick if needed
   // CommandJoystick driverController = new CommandJoystick(1);
 
-  private final Intake intake = new Intake();
+  private final Intake uIntake = new Intake(IntakeConstants.ID);
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
-
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -83,8 +87,11 @@ public class RobotContainer
         () -> -driverXbox.getRightX(), () -> true, false, true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
-  }
 
+    
+    uIntake.setDefaultCommand(new StopIntake(uIntake));
+  }
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
@@ -98,6 +105,8 @@ public class RobotContainer
 
     new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    new JoystickButton(driverXbox, 6).onTrue(new RunIntake(uIntake, false));
+    new JoystickButton(driverXbox, 3).onTrue(new RunIntake(uIntake, true));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
@@ -122,4 +131,5 @@ public class RobotContainer
     drivebase.setMotorBrake(brake);
   }
 
+    
 }
