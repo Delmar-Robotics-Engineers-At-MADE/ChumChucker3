@@ -8,19 +8,17 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Commands.auto.Autos;
 import frc.robot.Commands.drivebase.AbsoluteDrive;
 import frc.robot.Commands.drivebase.AbsoluteFieldDrive;
 import frc.robot.Commands.drivebase.TeleopDrive;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.Commands.RunIntake;
 import frc.robot.Commands.StopIntake;
@@ -42,7 +40,9 @@ public class RobotContainer
   // Replace with CommandPS4Controller or CommandJoystick if needed
   // CommandJoystick driverController = new CommandJoystick(1);
 
-  private final Intake uIntake = new Intake(IntakeConstants.ID);
+  private final Intake intake = new Intake();
+
+  private final Climber climber = new Climber();
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
@@ -89,7 +89,7 @@ public class RobotContainer
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
 
     
-    uIntake.setDefaultCommand(new StopIntake(uIntake));
+    intake.setDefaultCommand(new StopIntake(intake));
   }
   
   /**
@@ -105,8 +105,8 @@ public class RobotContainer
 
     new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 6).onTrue(new RunIntake(uIntake, false));
-    new JoystickButton(driverXbox, 3).onTrue(new RunIntake(uIntake, true));
+    new JoystickButton(driverXbox, 6).onTrue(new RunIntake(intake, false));
+    new JoystickButton(driverXbox, 3).onTrue(new RunIntake(intake, true));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 

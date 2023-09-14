@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -12,6 +13,7 @@ public class Climber extends SubsystemBase {
     
     private final CANSparkMax dart;
     private final DigitalInput limit;
+    private final SparkMaxPIDController pid;
     boolean homed = false;
     int x;
 
@@ -19,6 +21,7 @@ public class Climber extends SubsystemBase {
         dart = new CANSparkMax(20, MotorType.kBrushless);
         dart.setIdleMode(IdleMode.kBrake);
         limit = new DigitalInput(0);
+        pid = dart.getPIDController();
     }
 
     public void checkHome() {
@@ -41,7 +44,7 @@ public class Climber extends SubsystemBase {
         dart.set((0.5 * x));
     }
 
-    public void runClimberToPos(int pos) {
-        
+    public void runClimberToPos(double pos) {
+        pid.setReference(pos, ControlType.kPosition);
     }
 }
