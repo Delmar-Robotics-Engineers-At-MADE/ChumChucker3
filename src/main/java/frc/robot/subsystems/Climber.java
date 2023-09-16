@@ -33,6 +33,17 @@ public class Climber extends SubsystemBase {
         }
     }
 
+    public void home() {
+        checkHome();
+        if (!homed) {
+            dart.set(0.5);
+        }
+        else {
+            dart.stopMotor();
+            checkHome();
+        }
+    }
+
     // for testing and position finding only. Remove from container for real use.
     public void runClimberManual(boolean reversed) {
         if (!reversed) {
