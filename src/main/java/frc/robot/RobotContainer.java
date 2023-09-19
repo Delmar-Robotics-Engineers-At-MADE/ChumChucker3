@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -34,8 +35,7 @@ public class RobotContainer
 {
 
   // The robot's subsystems and commands are defined here...
-  private final Swerve drivebase = new Swerve(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve/neo"));
+  private final Swerve drivebase = new Swerve(new File(Filesystem.getDeployDirectory(),"swerve/neo"));
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   // CommandJoystick driverController = new CommandJoystick(1);
@@ -106,8 +106,8 @@ public class RobotContainer
     new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     new JoystickButton(driverXbox, 6).onTrue(new RunIntake(intake, false));
-    new JoystickButton(driverXbox, 3).onTrue(new RunIntake(intake, true));
-//    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    new Trigger(driverXbox.rightTrigger(0, null)).onTrue(new RunIntake(intake, true));
+    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
   /**
