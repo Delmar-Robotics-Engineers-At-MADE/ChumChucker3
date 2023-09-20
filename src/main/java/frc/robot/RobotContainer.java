@@ -105,9 +105,9 @@ public class RobotContainer
 
     new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 6).onTrue(new RunIntake(intake, false));
-    new Trigger(driverXbox.rightTrigger(0, null)).onTrue(new RunIntake(intake, true));
-    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    // new JoystickButton(driverXbox, 6).onTrue(new RunIntake(intake, false));
+    // new Trigger(driverXbox.rightTrigger(0, null)).onTrue(new RunIntake(intake, true));
+    // new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
   /**
