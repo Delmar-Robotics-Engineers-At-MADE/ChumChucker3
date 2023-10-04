@@ -3,7 +3,7 @@
   "wheelGripCoefficientOfFriction": 1.19,
   "gearRatio": {
     "drive": 5.25,
-    "angle": 100
+    "angle": 106.6
   },
   "currentLimit": {
     "drive": 60,
