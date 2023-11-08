@@ -61,32 +61,31 @@ public class RobotContainer
                                                           // controls are front-left positive
                                                           () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
                                                                                        OperatorConstants.LEFT_Y_DEADBAND),
-                                                          () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                                                                       OperatorConstants.LEFT_X_DEADBAND),
-                                                          () -> 0,/*-driverXbox.getRightX(),*/
-                                                          () -> 0,/*-driverXbox.getRightY(),*/
+                                                          () -> /*MathUtil.applyDeadband(driverXbox.getLeftX(),
+                                                                                       OperatorConstants.LEFT_X_DEADBAND)*/ 0,
+                                                          () -> -driverXbox.getRightX(),
                                                           false);
 
     AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
                                                                          () ->
                                                                              MathUtil.applyDeadband(driverXbox.getLeftY(),
                                                                                                     OperatorConstants.LEFT_Y_DEADBAND),
-                                                                         () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                                                                                      OperatorConstants.LEFT_X_DEADBAND),
-                                                                         () -> driverXbox.getRawAxis(4), false);
+                                                                         () -> /*MathUtil.applyDeadband(driverXbox.getLeftX(),
+                                                                                                      OperatorConstants.LEFT_X_DEADBAND)*/ 0,
+                                                                         () -> MathUtil.applyDeadband(driverXbox.getRawAxis(4), OperatorConstants.LEFT_X_DEADBAND), false);
     TeleopDrive simClosedFieldRel = new TeleopDrive(drivebase,
                                                     () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
                                                                                  OperatorConstants.LEFT_Y_DEADBAND),
-                                                    () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                                                                 OperatorConstants.LEFT_X_DEADBAND),
+                                                    () -> /*MathUtil.applyDeadband(driverXbox.getLeftX(),
+                                                                                 OperatorConstants.LEFT_X_DEADBAND)*/ 0,
                                                     () -> driverXbox.getRawAxis(4), () -> true, false, true);
     TeleopDrive closedFieldRel = new TeleopDrive(
         drivebase,
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRightX(), () -> true, false, true);
+        () -> /*MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND)*/ 0,
+        () -> -driverXbox.getRightX(), () -> true, false, false);
 
-    drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldAbsoluteDrive : closedFieldAbsoluteDrive);
+    drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedAbsoluteDrive);
 
     
     intake.setDefaultCommand(new StopIntake(intake));
@@ -103,10 +102,10 @@ public class RobotContainer
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverXbox, 1).toggleOnTrue((new InstantCommand(drivebase::zeroGyro)));
     //new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    // new JoystickButton(driverXbox, 6).onTrue(new RunIntake(intake, false));
-    // new Trigger(driverXbox.rightTrigger(0, null)).onTrue(new RunIntake(intake, true));
+    new JoystickButton(driverXbox, 6).whileTrue(new RunIntake(intake, false));
+    new JoystickButton(driverXbox, 5).whileTrue(new RunIntake(intake, true));
     new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 

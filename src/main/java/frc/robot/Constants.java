@@ -53,6 +53,6 @@ public final class Constants
   public static final class IntakeConstants {
     public static final int ID = 5;
     public static final double inSpeed = 0.7;
-    public static final double outSpeed = 0.7;
+    public static final double outSpeed = -0.7;
   }
 }
